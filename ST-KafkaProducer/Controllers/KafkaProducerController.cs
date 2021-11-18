@@ -14,20 +14,20 @@ namespace ST_KafkaProducer.Controllers
     {
         private readonly ProducerConfig config = new ProducerConfig
         { BootstrapServers = "localhost:9092" };
-        private readonly string topic = "simpletalk_topic";
+        private readonly string topic = "intel_topic";
         [HttpPost]
-        public IActionResult Post([FromBody] Product Product)
+        public IActionResult Post([FromQuery] string message)
         {
-            return Created(string.Empty, SendToKafka(topic, Product));
+            return Created(string.Empty, SendToKafka(topic, message));
         }
-        private Object SendToKafka(string topic, Product Product)
+        private Object SendToKafka(string topic, string message)
         {
             using (var producer =
                  new ProducerBuilder<Null, string>(config).Build())
             {
                 try
                 {
-                    return producer.ProduceAsync(topic, new Message<Null, string> { Value = Product.ToString() })
+                    return producer.ProduceAsync(topic, new Message<Null, string> { Value = message })
                         .GetAwaiter()
                         .GetResult();
                 }

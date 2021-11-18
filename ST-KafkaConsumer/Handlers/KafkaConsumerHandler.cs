@@ -12,7 +12,7 @@ namespace ST_KafkaConsumer.Handlers
 {
     public class KafkaConsumerHandler:IHostedService
     {
-        private readonly string topic = "simpletalk_topic";
+        private readonly string topic = "intel_topic";
         public Task StartAsync(CancellationToken cancellationToken)
         {
             var conf = new ConsumerConfig
